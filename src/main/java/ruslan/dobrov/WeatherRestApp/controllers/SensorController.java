@@ -6,13 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ruslan.dobrov.WeatherRestApp.dto.SensorDTO;
 import ruslan.dobrov.WeatherRestApp.models.Sensor;
 import ruslan.dobrov.WeatherRestApp.services.SensorService;
+import ruslan.dobrov.WeatherRestApp.util.SensorErrorResponse;
+import ruslan.dobrov.WeatherRestApp.util.SensorIsAlreadyExist;
 import ruslan.dobrov.WeatherRestApp.util.SensorNotCreatedException;
 
 import javax.validation.Valid;
@@ -44,10 +43,33 @@ public class SensorController {
             }
             throw new SensorNotCreatedException(errorMsg.toString());
         }
+        if (sensorService.findOne(sensorDTO.getName()) != null) {
+            throw new SensorIsAlreadyExist();
+        }
         sensorService.save(convertToSensor(sensorDTO));
 
         // отправляем HTTP ответ с пустым телом и со статусом 200
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<SensorErrorResponse> handleException(SensorNotCreatedException e) {
+        SensorErrorResponse response = new SensorErrorResponse(
+                e.getMessage(),
+                System.currentTimeMillis()
+        );
+        // В HTTP ответе тело ответа (response) и статус в заголовке
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST); // NOT_FOUND - 404 статус
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<SensorErrorResponse> handleException(SensorIsAlreadyExist e) {
+        SensorErrorResponse response = new SensorErrorResponse(
+               "Sensor with this name is already exist",
+                System.currentTimeMillis()
+        );
+        // В HTTP ответе тело ответа (response) и статус в заголовке
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST); // NOT_FOUND - 404 статус
     }
 
     private Sensor convertToSensor(SensorDTO sensorDTO) {
