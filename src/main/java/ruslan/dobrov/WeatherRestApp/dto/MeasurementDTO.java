@@ -1,54 +1,24 @@
-package ruslan.dobrov.WeatherRestApp.models;
+package ruslan.dobrov.WeatherRestApp.dto;
 
 import com.sun.istack.NotNull;
 import org.hibernate.validator.constraints.Range;
-
-import javax.persistence.*;
+import ruslan.dobrov.WeatherRestApp.models.Sensor;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "Measurement")
-public class Measurement {
+public class MeasurementDTO {
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(name = "value")
     @NotNull
     @Range(min = -100, max = 100, message = "Temperature must be between -100 and 100")
     private float value;
 
-    @Column(name = "raining")
     @NotNull
     private boolean raining;
 
-    @Column(name = "created_at")
     @NotNull
     private LocalDateTime created_at;
 
-    @ManyToOne
-    @JoinColumn(name = "sensor_name", referencedColumnName = "name")
     @NotNull
     private Sensor sensor;
-
-    public Measurement() {
-    }
-
-    public Measurement(float value, boolean raining, Sensor sensor) {
-        this.value = value;
-        this.raining = raining;
-        this.sensor = sensor;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public float getValue() {
         return value;
@@ -80,5 +50,15 @@ public class Measurement {
 
     public void setSensor(Sensor sensor) {
         this.sensor = sensor;
+    }
+
+    @Override
+    public String toString() {
+        return "MeasurementDTO{" +
+                "value=" + value +
+                ", raining=" + raining +
+                ", created_at=" + created_at +
+                ", sensor=" + sensor.getName() +
+                '}';
     }
 }

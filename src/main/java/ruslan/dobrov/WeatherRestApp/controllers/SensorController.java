@@ -43,7 +43,7 @@ public class SensorController {
             }
             throw new SensorNotCreatedException(errorMsg.toString());
         }
-        if (sensorService.findOne(sensorDTO.getName()) != null) {
+        if (sensorService.findByName(sensorDTO.getName()) != null) {
             throw new SensorIsAlreadyExist();
         }
         sensorService.save(convertToSensor(sensorDTO));
