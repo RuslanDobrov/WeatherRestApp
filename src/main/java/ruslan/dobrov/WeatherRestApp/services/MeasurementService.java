@@ -43,7 +43,11 @@ public class MeasurementService {
         measurement.setCreated_at(LocalDateTime.now());
     }
 
-    public List<Measurement> findAll() {
+    public List<Measurement> findAllMeasurements() {
         return measurementRepository.findAll();
+    }
+
+    public Integer countRainingDays() {
+        return measurementRepository.findAllByRainingIsTrue().size();
     }
 }

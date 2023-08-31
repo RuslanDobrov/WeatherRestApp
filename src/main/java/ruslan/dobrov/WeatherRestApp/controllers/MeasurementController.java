@@ -57,7 +57,12 @@ public class MeasurementController {
 
     @GetMapping
     public List<MeasurementDTO> getMeasurements() {
-        return measurementService.findAll().stream().map(this::convertToMeasurementDTO).collect(Collectors.toList()); //Jackson конвертирует эти объекты в JSON
+        return measurementService.findAllMeasurements().stream().map(this::convertToMeasurementDTO).collect(Collectors.toList()); //Jackson конвертирует эти объекты в JSON
+    }
+
+    @GetMapping("/rainyDaysCount")
+    public Integer countRainingDays() {
+        return measurementService.countRainingDays();
     }
 
     private Measurement convertToMeasurement(MeasurementDTO measurementDTO) {
