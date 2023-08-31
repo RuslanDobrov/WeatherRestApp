@@ -9,13 +9,13 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import ruslan.dobrov.WeatherRestApp.dto.MeasurementDTO;
 import ruslan.dobrov.WeatherRestApp.models.Measurement;
-import ruslan.dobrov.WeatherRestApp.models.Sensor;
 import ruslan.dobrov.WeatherRestApp.services.MeasurementService;
 import ruslan.dobrov.WeatherRestApp.services.SensorService;
 import ruslan.dobrov.WeatherRestApp.util.SensorNotCreatedException;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/measurements")
@@ -55,7 +55,16 @@ public class MeasurementController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @GetMapping
+    public List<MeasurementDTO> getMeasurements() {
+        return measurementService.findAll().stream().map(this::convertToMeasurementDTO).collect(Collectors.toList()); //Jackson конвертирует эти объекты в JSON
+    }
+
     private Measurement convertToMeasurement(MeasurementDTO measurementDTO) {
         return modelMapper.map(measurementDTO, Measurement.class);
+    }
+
+    private MeasurementDTO convertToMeasurementDTO(Measurement measurement) {
+        return modelMapper.map(measurement, MeasurementDTO.class);
     }
 }

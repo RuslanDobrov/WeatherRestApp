@@ -1,5 +1,7 @@
 package ruslan.dobrov.WeatherRestApp.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -21,6 +23,7 @@ public class Sensor implements Serializable {
     private String name;
 
     @OneToMany(mappedBy = "sensor")
+    @JsonBackReference
     private List<Measurement> measurements;
 
     public Sensor() {

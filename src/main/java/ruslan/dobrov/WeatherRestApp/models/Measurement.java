@@ -1,5 +1,6 @@
 package ruslan.dobrov.WeatherRestApp.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import org.hibernate.validator.constraints.Range;
 
@@ -31,6 +32,7 @@ public class Measurement {
     @ManyToOne
     @JoinColumn(name = "sensor_name", referencedColumnName = "name")
     @NotNull
+    @JsonManagedReference
     private Sensor sensor;
 
     public Measurement() {

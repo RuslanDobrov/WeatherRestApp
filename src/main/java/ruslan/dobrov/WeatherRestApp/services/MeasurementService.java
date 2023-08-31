@@ -9,6 +9,7 @@ import ruslan.dobrov.WeatherRestApp.repositories.MeasurementRepository;
 import ruslan.dobrov.WeatherRestApp.repositories.SensorRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -40,5 +41,9 @@ public class MeasurementService {
 
     private void enrichMeasurement(Measurement measurement) {
         measurement.setCreated_at(LocalDateTime.now());
+    }
+
+    public List<Measurement> findAll() {
+        return measurementRepository.findAll();
     }
 }
