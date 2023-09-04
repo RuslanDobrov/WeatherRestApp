@@ -6,5 +6,5 @@ import ruslan.dobrov.WeatherRestApp.models.Sensor;
 import java.util.Optional;
 
 public interface SensorRepository extends JpaRepository<Sensor, Integer> {
-    Sensor findByName(String name);
+    Optional<Sensor> findByName(String name);
 }

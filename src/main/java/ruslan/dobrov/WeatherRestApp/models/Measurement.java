@@ -30,7 +30,7 @@ public class Measurement {
     private LocalDateTime created_at;
 
     @ManyToOne
-    @JoinColumn(name = "sensor_name", referencedColumnName = "name")
+    @JoinColumn(name = "sensor_id", referencedColumnName = "id")
     @NotNull
     @JsonManagedReference
     private Sensor sensor;

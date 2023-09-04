@@ -10,6 +10,7 @@ import ruslan.dobrov.WeatherRestApp.repositories.SensorRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -28,9 +29,9 @@ public class MeasurementService {
     public void save(Measurement measurement) {
         Sensor sensor = measurement.getSensor();
         if (sensor != null) {
-            Sensor existingSensor = sensorRepository.findByName(sensor.getName());
-            if (existingSensor != null) {
-                measurement.setSensor(existingSensor); // Используем существующий объект Sensor
+            Optional<Sensor> existingSensor = sensorRepository.findByName(sensor.getName());
+            if (existingSensor.isPresent()) {
+                measurement.setSensor(existingSensor.get()); // Используем существующий объект Sensor
             } else {
                 sensorRepository.save(sensor); // Сохраняем новый объект Sensor
             }
@@ -48,6 +49,6 @@ public class MeasurementService {
     }
 
     public Integer countRainingDays() {
-        return measurementRepository.findAllByRainingIsTrue().size();
+        return measurementRepository.countByRainingIsTrue();
     }
 }

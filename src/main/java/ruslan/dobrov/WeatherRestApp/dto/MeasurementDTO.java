@@ -2,8 +2,6 @@ package ruslan.dobrov.WeatherRestApp.dto;
 
 import com.sun.istack.NotNull;
 import org.hibernate.validator.constraints.Range;
-import ruslan.dobrov.WeatherRestApp.models.Sensor;
-import java.time.LocalDateTime;
 
 public class MeasurementDTO {
 
@@ -15,10 +13,7 @@ public class MeasurementDTO {
     private boolean raining;
 
     @NotNull
-    private LocalDateTime created_at;
-
-    @NotNull
-    private Sensor sensor;
+    private SensorDTO sensor;
 
     public float getValue() {
         return value;
@@ -36,19 +31,11 @@ public class MeasurementDTO {
         this.raining = raining;
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
-    }
-
-    public Sensor getSensor() {
+    public SensorDTO getSensor() {
         return sensor;
     }
 
-    public void setSensor(Sensor sensor) {
+    public void setSensor(SensorDTO sensor) {
         this.sensor = sensor;
     }
 }

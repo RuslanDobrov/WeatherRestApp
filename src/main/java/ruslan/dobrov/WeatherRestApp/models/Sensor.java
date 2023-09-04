@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Sensor")
-public class Sensor implements Serializable {
+public class Sensor {
 
     @Id
     @Column(name = "id")
@@ -23,7 +23,6 @@ public class Sensor implements Serializable {
     private String name;
 
     @OneToMany(mappedBy = "sensor")
-    @JsonBackReference
     private List<Measurement> measurements;
 
     public Sensor() {
