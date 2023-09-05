@@ -51,6 +51,13 @@
 			<artifactId>modelmapper</artifactId>
 			<version>2.4.5</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.knowm.xchart</groupId>
+			<artifactId>xchart</artifactId>
+			<version>3.8.5</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

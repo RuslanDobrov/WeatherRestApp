@@ -32,7 +32,6 @@ public class Measurement {
     @ManyToOne
     @JoinColumn(name = "sensor_id", referencedColumnName = "id")
     @NotNull
-    @JsonManagedReference
     private Sensor sensor;
 
     public Measurement() {

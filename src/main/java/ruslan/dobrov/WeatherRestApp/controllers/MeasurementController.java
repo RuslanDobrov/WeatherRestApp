@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import ruslan.dobrov.WeatherRestApp.dto.MeasurementDTO;
 import ruslan.dobrov.WeatherRestApp.models.Measurement;
 import ruslan.dobrov.WeatherRestApp.services.MeasurementService;
+import ruslan.dobrov.WeatherRestApp.util.MeasurementXChart;
 import ruslan.dobrov.WeatherRestApp.util.SensorErrorResponse;
 import ruslan.dobrov.WeatherRestApp.util.SensorNotCreatedException;
 import ruslan.dobrov.WeatherRestApp.util.ValidationError;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,6 +60,33 @@ public class MeasurementController {
     public ResponseEntity<Integer> countRainingDays() {
         Integer count = measurementService.countRainingDays();
         return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/chart")
+    public List<MeasurementXChart> getChartMeasurements() {
+        // Здесь получите данные из базы данных, используя MeasurementService или MeasurementRepository
+        List<Measurement> measurements = measurementService.findAllMeasurements();
+
+        // Преобразуйте данные в формат, подходящий для построения графика, например, в список x и y значений
+        List<Integer> xData = new ArrayList<>();
+        List<Float> yData = new ArrayList<>();
+
+        for (Measurement measurement : measurements) {
+            xData.add(measurement.getId()); // Используйте нужное поле для оси x
+            yData.add(measurement.getValue()); // Используйте нужное поле для оси y
+        }
+
+        // Верните данные в виде списка MeasurementDTO (или другого формата, если необходимо)
+        List<MeasurementXChart> measurementXCharts = new ArrayList<>();
+
+        for (int i = 0; i < xData.size(); i++) {
+            MeasurementXChart measurementXChart = new MeasurementXChart();
+            measurementXChart.setX(xData.get(i));
+            measurementXChart.setY(yData.get(i));
+            measurementXCharts.add(measurementXChart);
+        }
+
+        return measurementXCharts;
     }
 
     @ExceptionHandler
