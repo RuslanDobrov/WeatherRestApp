@@ -9,8 +9,6 @@ public class ValidationError {
         this.message = message;
     }
 
-    // Геттеры и сеттеры
-
     public String getField() {
         return field;
     }

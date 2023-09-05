@@ -1,6 +1,5 @@
 package ruslan.dobrov.WeatherRestApp.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import org.hibernate.validator.constraints.Range;
 
